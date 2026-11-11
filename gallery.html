@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>《鹈鹕测试》阶段 2 (r3 真迹版) — 20 时代精雕画廊</title>
+  <link rel="stylesheet" href="./public/style.css" />
+  <style>
+    html, body {
+      overflow-y: auto !important;
+      user-select: text !important;
+      height: auto !important;
+      background: #0e0d0b;
+      color: #f3ede0;
+      font-family: "PelicanSans", system-ui, -apple-system, sans-serif;
+    }
+    .wrap {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 28px 20px 80px;
+    }
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(212, 163, 115, 0.25);
+      margin-bottom: 28px;
+    }
+    h1 {
+      font-family: "PelicanSerif", serif;
+      font-size: clamp(24px, 3vw, 34px);
+      color: #f7f1e3;
+      margin-bottom: 6px;
+    }
+    .sub {
+      color: #b8ae9c;
+      font-size: 14px;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border-radius: 7px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid rgba(212, 163, 115, 0.45);
+      background: #1d1915;
+      color: #f0dfc4;
+      transition: all 0.15s ease;
+    }
+    .btn.primary {
+      background: #d4a373;
+      color: #18130e;
+      border-color: #d4a373;
+    }
+    .btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+    .card {
+      background: #171512;
+      border: 1px solid rgba(226, 206, 170, 0.14);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+      display: flex;
+      flex-direction: column;
+    }
+    .card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      cursor: zoom-in;
+      background: #0a0908;
+    }
+    .card-body {
+      padding: 14px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+    .card-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .era-title {
+      font-family: "PelicanSerif", serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #f6efe0;
+    }
+    .era-tag {
+      font-family: "PelicanMono", monospace;
+      font-size: 12px;
+      color: #d4a373;
+      background: rgba(212, 163, 115, 0.12);
+      padding: 2px 7px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .era-desc {
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: #c5bcac;
+    }
+    .card-links {
+      margin-top: auto;
+      padding-top: 8px;
+      display: flex;
+      gap: 10px;
+      font-size: 12.5px;
+    }
+    .card-links a, .card-links button {
+      background: rgba(255, 255, 255, 0.05);
+      color: #e4c199;
+      border: 1px solid rgba(212, 163, 115, 0.28);
+      border-radius: 5px;
+      padding: 4px 9px;
+      cursor: pointer;
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 12px;
+    }
+    .card-links a:hover, .card-links button:hover {
+      background: rgba(212, 163, 115, 0.18);
+    }
+    h2 {
+      font-family: "PelicanSerif", serif;
+      font-size: 22px;
+      margin: 12px 0 16px;
+      color: #f3ead8;
+    }
+    .era-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 20px;
+    }
+    @media (max-width: 520px) {
+      .era-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    #lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 6, 5, 0.94);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 16px;
+    }
+    #lightbox.open {
+      display: flex;
+    }
+    #lb-img {
+      max-width: 96vw;
+      max-height: 84vh;
+      object-fit: contain;
+      border-radius: 6px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.85);
+    }
+    #lb-bar {
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: #efe7d6;
+      font-size: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    #lb-bar button, #lb-bar a {
+      background: #25201b;
+      color: #f3ead8;
+      border: 1px solid rgba(212, 163, 115, 0.4);
+      border-radius: 6px;
+      padding: 6px 13px;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>《鹈鹕测试》阶段 2（r3 真迹重塑版）：20 时代艺术品画廊</h1>
+        <div class="sub">全 20 幅已完成去 SVG 物理肌理重塑、原生题识/画框外铜牌改造与媒介动态打磨。点击任意图片可 1080p 全屏放大（支持 ← / → 翻页），或点开该时代的 r3 12 拍分镜接触表。</div>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="./">▶ 打开实时交互播放器 (index.html)</a>
+        <a class="btn" href="./shots/master_20_eras_gallery.png" target="_blank">下载 4×5 全景总表原图</a>
+      </div>
+    </header>
+
+    <h2>一、全景总表与片尾 7×3 展墙实装</h2>
+    <div class="hero-grid">
+      <div class="card">
+        <img src="./shots/master_20_eras_gallery.png" alt="20时代高潮时刻全景验收图鉴" data-lb="0" loading="lazy" />
+        <div class="card-body">
+          <div class="card-head">
+            <span class="era-title">20 时代高潮时刻全景验收图鉴（4×5）</span>
+            <span class="era-tag">2948 × 2261</span>
+          </div>
+          <div class="era-desc">截取全 20 个时代第 2 小节高光代表拍（7.8s ~ 121.8s），直观对比各时代底材肌理、专属鹈鹕造型与构图差异。</div>
+        </div>
+      </div>
+      <div class="card">
+        <img src="./shots/outro_wall.png" alt="Outro 7×3 展墙实装检验" data-lb="1" loading="lazy" />
+        <div class="card-body">
+          <div class="card-head">
+            <span class="era-title">片尾 Outro 7×3 展墙实装（t = 127.20s）</span>
+            <span class="era-tag">1920 × 1080</span>
+          </div>
+          <div class="era-desc">20 幅正式时代画作完整陈列于美术馆展墙，右下第 21 格空讲台与三支麦克风静候鹈鹕本人掠过。</div>
+        </div>
+      </div>
+    </div>
+
+    <h2>二、全部 20 时代 1920×1080 原生定格（共 21 张）</h2>
+    <div class="era-grid" id="era-grid"></div>
+  </div>
+
+  <div id="lightbox" onclick="if(event.target===this)closeLB()">
+    <img id="lb-img" src="" alt="" />
+    <div id="lb-bar">
+      <button type="button" onclick="stepLB(-1)">← 上一张</button>
+      <span id="lb-caption"></span>
+      <a id="lb-raw" href="#" target="_blank">打开无损原图 ↗</a>
+      <button type="button" onclick="stepLB(1)">下一张 →</button>
+      <button type="button" onclick="closeLB()">关闭 ✕</button>
+    </div>
+  </div>
+
+  <script>
+    const ERAS = [
+      { id: "01", title: "#01 撒哈拉岩画", date: "约前 4000 · t=7.80s", shot: "./shots/shot_007.80s.png", sheet: "./sheets/s01_r3_sheet.png", desc: "塔西里微浮雕砂岩高度场、3600+ 骨管吹喷矿物微滴负片手印、燧石敲击点刻、修长牧牛人与湿白竖琴弯角牛群、火烤弯木配打制崩口砂岩轮。" },
+      { id: "02", title: "#02 埃及壁画", date: "约前 1300 · t=13.80s", shot: "./shots/shot_013.80s.png", sheet: "./sheets/s02_r3_sheet.png", desc: "底比斯三层麦秸灰泥剥落残片、横贯墓室分栏彩带与莲花神龛柱、灯芯草笔纯手绘古篆王名圈、图坦卡蒙弯木鎏金战车与荷鲁斯展翼。" },
+      { id: "03", title: "#03 汉画像石拓片", date: "约 100 · t=19.80s", shot: "./shots/shot_019.80s.png", sheet: "./sheets/s03_r3_sheet.png", desc: "武梁祠平行铁錾减地沟纹、绵连拓纸扑墨散点晕边、折角深衣导骑与《考工记》曲辕双轮轻轺、右侧窄拓纸乾嘉金石小楷题跋与藏印。" },
+      { id: "04", title: "#04 唐代白描", date: "约 750 · t=25.80s", shot: "./shots/shot_025.80s.png", sheet: "./sheets/s04_r3_sheet.png", desc: "硬黄麻纸茶褐包浆与 p5.brush 水墨淡染、兰叶描云头石堤与吴装奔流回澜惊涛、盛唐莲瓣木轮配银香囊与行波翻转飞天披帛。" },
+      { id: "05a", title: "#05 宋代山水（巨碑全景）", date: "约 1000 · t=30.00s", shot: "./shots/shot_030.00s.png", sheet: "./sheets/s05_r3_sheet.png", desc: "双丝暗茶熟绢与 p5.brush 烟岚积墨、约一万四千点顺岩层水滴雨点皴、三折落差深谷岩缝飞瀑、古松树干暗藏臣宽制款。" },
+      { id: "05b", title: "#05 宋代山水（2.95x 深推点景）", date: "约 1000 · t=31.80s", shot: "./shots/shot_031.80s.png", sheet: "./sheets/s05_r3_sheet.png", desc: "2x 超采样谷底栈桥，折带皴悬崖叠石基座与圆木斜撑排架之上，斗笠水墨鹈鹕蓄力蹬踏老山木榫卯车紧随惊耳驮驴商队。" },
+      { id: "06", title: "#06 清明上河图", date: "约 1100 · t=37.80s", shot: "./shots/shot_037.80s.png", sheet: "./sheets/s06_r3_sheet.png", desc: "暗金熟绢包浆与汴河泥沙水色、五排叠梁九根原木无柱虹桥、淤泥芦苇渚与苍劲柳丝、桥上 15 人惊呼与桥下漕船落桅过桥双线高潮。" },
+      { id: "07", title: "#07 玛雅抄本", date: "约 1200 · t=43.80s", shot: "./shots/shot_043.80s.png", sheet: "./sheets/s07_r3_sheet.png", desc: "阿马特树皮折页脆性灰泥剥落露底、双头羽蛇神硬木雕梁与黑曜石太阳历轮、零现代字纯图形二十进制进位与书吏俯身蘸朱砂点记。" },
+      { id: "08", title: "#08 莫卧儿细密画", date: "约 1600 · t=49.80s", shot: "./shots/shot_049.80s.png", sheet: "./sheets/s08_r3_sheet.png", desc: "青金石手撕金箔外框、数百枚水粉点叶石榴柏树与氧化银箔涡纹水渠、曼苏尔游丝点染鹈鹕骑和阗碧玉错金掐丝珐琅莲花轮御车。" },
+      { id: "09", title: "#09 八大山人写意", date: "约 1690 · t=55.80s", shot: "./shots/shot_055.80s.png", sheet: "./sheets/s09_r3_sheet.png", desc: "p5.brush 宿墨渗化泼墨残荷与无闭合折带渴擦孤石、八成生宣留白、一笔飞白圆相双轮配三笔折枝车架、冷逸方形巨白眼向青天。" },
+      { id: "10", title: "#10 爪哇皮影戏", date: "约 1800 · t=61.80s", shot: "./shots/shot_061.80s.png", sheet: "./sheets/s10_r3_sheet.png", desc: "幕后金翅鸟油灯柔焦透射剪影、上半身离幕放大琥珀柔焦半影 vs 下半身贴幕刀刻镂空光学呼吸、7 处骨铆顿挫与弯弧牛角杆斜挑交叉。" },
+      { id: "11", title: "#11 浮世绘", date: "1830s · t=67.80s", shot: "./shots/shot_067.80s.png", sheet: "./sheets/s11_r3_sheet.png", desc: "多色木版 ±1.5px 套印微错位与樱木横向木目摺痕、分叉雪溪富士山与木版浪爪、江户煤竹车架配 32 骨蛇目番伞油纸轮与双联短册。" },
+      { id: "12", title: "#12 梵高《星月夜》", date: "1889 · t=73.80s", shot: "./shots/shot_073.80s.png", sheet: "./sheets/s12_r3_sheet.png", desc: "刮刀浮雕厚涂油彩、前后轮化作两团 4 臂对数螺旋燃烧星云火轮、车架化作与哥特烈焰丝柏同源的扭曲火焰木枝干，纯净无字画布。" },
+      { id: "13", title: "#13 蒙克《呐喊》", date: "1893 · t=79.80s", shot: "./shots/shot_079.80s.png", sheet: "./sheets/s13_r3_sheet.png", desc: "1893 未涂底粗木浆纸板留空齿痕与干擦粉彩带、硫磺黄亮脊粉彩单车、血红天空与峡湾随呐喊口横向挤压痉挛沸腾 + 原画铅笔暗记。" },
+      { id: "14", title: "#14 《诺斯费拉图》", date: "1922 · t=85.80s", shot: "./shots/shot_085.80s.png", sheet: "./sheets/s14_r3_sheet.png", desc: "剥落灰泥与手锻铅条窗、正色性银盐双色调颗粒、宽幅渐晕月光拱廊、全片零实体纯黑影（轮底刀锋浓黑→高处翼尖柔焦半影 + 石阶折断）。" },
+      { id: "15", title: "#15 示波器矢量图", date: "1950s · t=91.80s", shot: "./shots/shot_091.80s.png", sheet: "./sheets/s15_r3_sheet.png", desc: "冲压露铜出厂铭牌与锤纹磨白机箱、暗房银盐颗粒立体手模透 P1 次表面绿光、单束连续电子束驻波车轮与速率反比拐点过曝白核。" },
+      { id: "16", title: "#16 8-bit 像素游戏", date: "1980s · t=97.80s", shot: "./shots/shot_097.80s.png", sheet: "./sheets/s16_r3_sheet.png", desc: "原生整数 PPU 帧缓冲与手工 12×12 街机点阵汉字顶栏、手工精点单车与扑翼精灵、坑底调色板循环瀑布、NTSC 微色溢与扫描线。" },
+      { id: "17", title: "#17 早期聊天窗口", date: "2000s · t=103.80s", shot: "./shots/shot_103.80s.png", sheet: "./sheets/s17_r3_sheet.png", desc: "整数像素 Win2000 锐利 GDI 渲染、48×48 手绘抖动像素头像、216 色抖动 GIF 撕边白刺、窗口抖动还原经典 BitBlt 阶梯未重绘残影拖尾。" },
+      { id: "18", title: "#18 蒸汽波", date: "2010s · t=109.80s", shot: "./shots/shot_109.80s.png", sheet: "./sheets/s18_r3_sheet.png", desc: "逐像素 3D 法线场古希腊大理石雕像、90s POV-Ray 天际线强反差液态铬折面鹈鹕与地面霓虹倒影、荧光绿点阵 VCR 磁带角标。" },
+      { id: "19", title: "#19 竖屏短视频", date: "2020s · t=115.80s", shot: "./shots/shot_115.80s.png", sheet: "./sheets/s19_r3_sheet.png", desc: "远中近三层水平快门动感模糊实拍底片与前景擦镜椰叶、左下真实滚动评论池、晴空黄色相机追焦框锁定接力双击爆心。" },
+      { id: "20", title: "#20 代码美学", date: "2020s · t=121.80s", shot: "./shots/shot_121.80s.png", sheet: "./sheets/s20_r3_sheet.png", desc: "72% 高透毛玻璃 IDE 透黄金螺旋、G2 贝塞尔流光丝绸折面与晶格琥珀喉囊、黑曜石镜面 1:1 倒影、白箭头实时微拽橙色控制柄与曲率梳。" }
+    ];
+    ERAS.forEach(e => { if (e.realShot) e.shot = e.realShot; });
+
+    const lbItems = [
+      { src: "./shots/master_20_eras_gallery.png", cap: "20 时代高潮时刻全景验收图鉴（4×5）" },
+      { src: "./shots/outro_wall.png", cap: "Outro 7×3 展墙实装检验（t = 127.20s）" }
+    ];
+
+    const grid = document.getElementById("era-grid");
+    ERAS.forEach((era) => {
+      const idx = lbItems.length;
+      lbItems.push({ src: era.shot, cap: `${era.title}（${era.date}）` });
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <img src="${era.shot}" alt="${era.title}" data-lb="${idx}" loading="lazy" />
+        <div class="card-body">
+          <div class="card-head">
+            <span class="era-title">${era.title}</span>
+            <span class="era-tag">${era.date}</span>
+          </div>
+          <div class="era-desc">${era.desc}</div>
+          <div class="card-links">
+            <button type="button" onclick="openLB(${idx})">放大 1080p 定格</button>
+            <button type="button" onclick="openCustomLB('${era.sheet}', '${era.title} · 12拍分镜接触表')">查看 12 拍接触表</button>
+            <a href="${era.shot}" target="_blank">原图 ↗</a>
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    let curLB = 0;
+    const lb = document.getElementById("lightbox");
+    const lbImg = document.getElementById("lb-img");
+    const lbCap = document.getElementById("lb-caption");
+    const lbRaw = document.getElementById("lb-raw");
+
+    function openLB(i) {
+      curLB = (i + lbItems.length) % lbItems.length;
+      const item = lbItems[curLB];
+      lbImg.src = item.src;
+      lbCap.textContent = `${curLB + 1} / ${lbItems.length} · ${item.cap}`;
+      lbRaw.href = item.src;
+      lb.classList.add("open");
+    }
+    function openCustomLB(src, cap) {
+      lbImg.src = src;
+      lbCap.textContent = cap;
+      lbRaw.href = src;
+      lb.classList.add("open");
+    }
+    function closeLB() {
+      lb.classList.remove("open");
+    }
+    function stepLB(d) {
+      openLB(curLB + d);
+    }
+    document.querySelectorAll("img[data-lb]").forEach(el => {
+      el.addEventListener("click", () => openLB(Number(el.dataset.lb)));
+    });
+    window.addEventListener("keydown", (e) => {
+      if (!lb.classList.contains("open")) return;
+      if (e.key === "Escape") closeLB();
+      if (e.key === "ArrowLeft") stepLB(-1);
+      if (e.key === "ArrowRight") stepLB(1);
+    });
+  </script>
+</body>
+</html>

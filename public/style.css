@@ -1,0 +1,260 @@
+/* public/style.css — Local Open-Source Fonts & Preview Player UI */
+
+@font-face {
+  font-family: "PelicanSerif";
+  src: url("./fonts/NotoSerifSC.woff2") format("woff2"), url("./fonts/NotoSerifSC.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "PelicanSans";
+  src: url("./fonts/NotoSansSC.woff2") format("woff2"), url("./fonts/NotoSansSC.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "PelicanWenKai";
+  src: url("./fonts/LXGWWenKai.woff2") format("woff2"), url("./fonts/LXGWWenKai.ttf") format("truetype");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "PelicanMono";
+  src: url("./fonts/JetBrainsMono-Regular.woff2") format("woff2"), url("./fonts/JetBrainsMono-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "PelicanMono";
+  src: url("./fonts/JetBrainsMono-Bold.woff2") format("woff2"), url("./fonts/JetBrainsMono-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: block;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: #0d0c0b;
+  color: #f4efe4;
+  font-family: "PelicanSans", system-ui, sans-serif;
+  overflow: hidden;
+  user-select: none;
+}
+
+body.preview-mode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#stage-wrap {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px 4px;
+  min-height: 0;
+  cursor: pointer;
+}
+
+#canvas-host {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+body.preview-mode #canvas-host canvas {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto !important;
+  height: auto !important;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.72), 0 0 0 1px rgba(255, 245, 225, 0.12);
+  border-radius: 4px;
+}
+
+/* Pure 1920x1080 pixel-exact mode for render.html */
+body.render-mode {
+  margin: 0;
+  padding: 0;
+  background: #000;
+}
+body.render-mode #canvas-host {
+  width: 1920px;
+  height: 1080px;
+  display: block;
+}
+body.render-mode canvas {
+  display: block;
+  width: 1920px !important;
+  height: 1080px !important;
+}
+
+/* Bottom Preview Control Bar */
+#control-bar {
+  width: 100%;
+  height: 58px;
+  background: linear-gradient(180deg, #191714 0%, #110f0d 100%);
+  border-top: 1px solid rgba(226, 206, 170, 0.16);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 20px;
+  font-size: 14px;
+}
+
+#btn-play {
+  background: #d4a373;
+  color: #18130e;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 16px;
+  font-family: "PelicanSans", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  min-width: 78px;
+  transition: background 0.15s ease;
+}
+#btn-play:hover {
+  background: #e5b889;
+}
+
+#time-readout {
+  font-family: "PelicanMono", monospace;
+  font-size: 13px;
+  color: #d6cec0;
+  min-width: 112px;
+}
+
+#scrubber {
+  flex: 1;
+  accent-color: #d4a373;
+  height: 6px;
+  cursor: pointer;
+}
+
+#era-badge {
+  min-width: 265px;
+  text-align: right;
+  font-family: "PelicanSerif", serif;
+  font-weight: 600;
+  color: #f3ead8;
+  white-space: nowrap;
+}
+
+#scene-jump {
+  background: #24201b;
+  color: #efe7d6;
+  border: 1px solid rgba(212, 163, 115, 0.35);
+  border-radius: 5px;
+  padding: 5px 8px;
+  font-family: "PelicanSans", sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+#audio-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(36, 32, 27, 0.72);
+  border: 1px solid rgba(212, 163, 115, 0.24);
+  white-space: nowrap;
+}
+
+#btn-mute {
+  background: transparent;
+  color: #efe7d6;
+  border: none;
+  font-family: "PelicanSans", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 2px 4px;
+  min-width: 58px;
+  text-align: left;
+}
+#btn-mute:hover {
+  color: #e5b889;
+}
+
+#volume-slider {
+  width: 68px;
+  height: 5px;
+  accent-color: #d4a373;
+  cursor: pointer;
+}
+
+#audio-status {
+  font-size: 12px;
+  color: #a9b89c;
+  padding-left: 4px;
+  border-left: 1px solid rgba(226, 206, 170, 0.16);
+}
+#audio-status.is-loading {
+  color: #bfa980;
+}
+#audio-status.is-ready::before {
+  content: "● ";
+  color: #7bd389;
+}
+
+#btn-fullscreen {
+  background: rgba(36, 32, 27, 0.78);
+  color: #efe7d6;
+  border: 1px solid rgba(212, 163, 115, 0.35);
+  border-radius: 5px;
+  padding: 5px 11px;
+  font-family: "PelicanSans", sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+#btn-fullscreen:hover {
+  border-color: #e5b889;
+  color: #e5b889;
+}
+
+@media (max-width: 1120px) {
+  #control-bar {
+    height: auto;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+    padding: 8px 12px;
+  }
+  #scrubber {
+    order: -1;
+    flex: 1 1 100%;
+  }
+  #era-badge {
+    min-width: 0;
+    flex: 1;
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

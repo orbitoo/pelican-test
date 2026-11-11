@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>《鹈鹕测试》Pelican Test</title>
+  <meta name="description" content="一只骑自行车的鹈鹕，横穿 6000 年艺术史的 20 道画框 —— p5.js + Web Audio 100% 纯代码实时生成动画短片。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="《鹈鹕测试》Pelican Test" />
+  <meta property="og:description" content="一只骑自行车的鹈鹕，横穿 6000 年艺术史的 20 道画框 —— 100% 纯代码生成动画短片" />
+  <meta property="og:image" content="./public/og-cover.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="《鹈鹕测试》Pelican Test" />
+  <meta name="twitter:description" content="一只骑自行车的鹈鹕，横穿 6000 年艺术史的 20 道画框 —— 100% 纯代码生成动画短片" />
+  <meta name="twitter:image" content="./public/og-cover.jpg" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2314110e'/%3E%3Crect x='4' y='4' width='56' height='56' rx='9' fill='none' stroke='%23d4a373' stroke-width='2'/%3E%3Ccircle cx='20' cy='45' r='8' fill='none' stroke='%23e5b889' stroke-width='2.5'/%3E%3Ccircle cx='44' cy='45' r='8' fill='none' stroke='%23e5b889' stroke-width='2.5'/%3E%3Cpath d='M20 45 L31 33 L44 45 M31 33 L27 45 L40 35' fill='none' stroke='%23d4a373' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M28 32 C26 23 32 16 38 17 C41 17 42 20 41 22 L53 23 C52 29 45 31 39 28 C38 33 33 35 28 32 Z' fill='%23f6efe0'/%3E%3Cpath d='M40 22 L53 23 C51 29 44 30 39 26 Z' fill='%23e0872b'/%3E%3Ccircle cx='38' cy='20' r='1.6' fill='%2318130e'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="./public/style.css" />
+  <script src="./public/vendor/p5.min.js"></script>
+  <script src="./public/vendor/p5.brush.js"></script>
+</head>
+<body class="preview-mode">
+  <div id="stage-wrap" title="点击播放 / 暂停 (Space)">
+    <div id="canvas-host"></div>
+  </div>
+  <div id="control-bar">
+    <button id="btn-play" type="button">播放 ▶</button>
+    <span id="time-readout">00:00.0 / 02:17.0</span>
+    <input id="scrubber" type="range" min="0" max="137" step="0.016" value="0" aria-label="播放进度" />
+    <div id="audio-controls">
+      <button id="btn-mute" type="button" title="静音 / 取消静音 (M)">🔊 音量</button>
+      <input id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.9" aria-label="音量调节" />
+      <span id="audio-status" class="is-loading" title="20时代程序化合成音轨状态">音轨合成中…</span>
+    </div>
+    <select id="scene-jump" aria-label="跳转到版块"></select>
+    <span id="era-badge">Intro · 鹈鹕骑行艺术通史</span>
+    <button id="btn-fullscreen" type="button" title="全屏 / 退出全屏 (F)">⛶ 全屏</button>
+  </div>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

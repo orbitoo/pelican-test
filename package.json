@@ -1,0 +1,22 @@
+{
+  "name": "pelican-test",
+  "version": "0.1.0",
+  "description": "《鹈鹕测试》(Pelican Test) — A 2:17 procedural code animation short film in p5.js + p5.brush",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "serve": "node tools/serve.mjs",
+    "shot": "node tools/shot.mjs",
+    "sheet": "node tools/sheet.mjs",
+    "render": "node tools/render.mjs",
+    "encode": "bash tools/encode.sh",
+    "cover": "node tools/render-cover.mjs",
+    "build": "node tools/build-cf.mjs"
+  },
+  "dependencies": {
+    "p5": "^2.3.4",
+    "p5.brush": "^3.0.0",
+    "puppeteer-core": "^24.0.0"
+  }
+}

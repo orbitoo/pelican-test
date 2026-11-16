@@ -79,10 +79,17 @@ export function startStaticServer(port = 0, host = '127.0.0.1', options = {}) {
           }
           const contentType = MIME_TYPES[ext] || 'application/octet-stream';
           const range = req.headers.range;
-          if (range && ext === '.mp4') {
-            const m = /bytes=(\d*)-(\d*)/.exec(range);
-            const start = m && m[1] ? parseInt(m[1], 10) : 0;
-            const end = m && m[2] ? Math.min(stat.size - 1, parseInt(m[2], 10)) : stat.size - 1;
+          // Only handle a single byte range. Ignore malformed/unsupported ranges
+          // rather than returning a misleading partial response.
+          const m = range && ext === '.mp4' ? /^bytes=(\d*)-(\d*)$/.exec(range) : null;
+          if (m && (m[1] || m[2])) {
+            const suffixLength = m[1] ? null : Number(m[2]);
+            const start = suffixLength === null
+              ? Number(m[1])
+              : Math.max(0, stat.size - suffixLength);
+            const end = suffixLength === null && m[2]
+              ? Math.min(stat.size - 1, Number(m[2]))
+              : stat.size - 1;
             if (start >= stat.size || start > end) {
               res.writeHead(416, { 'Content-Range': `bytes */${stat.size}` });
               res.end();
